@@ -62,5 +62,8 @@ typedef struct {
 Cache_il1* inicializaCache_il1(u16 nsets_il1, u16 bsize_il1, u16 assoc_il1);
 Cache_dl1* inicializaCache_dl1(u16 nsets_dl1, u16 bsize_dl1, u16 assoc_dl1);
 Cache* inicializaCache(u16 nsets_il1, u16 bsize_il1, u16 assoc_il1, u16 nsets_dl1, u16 bsize_dl1, u16 assoc_dl1);
+void liberaMemoriaCache(Cache *cache);
+void imprimeDadosCache(Cache *cache);
+void salvaDadosCache(Cache *cache);
 
 #endif

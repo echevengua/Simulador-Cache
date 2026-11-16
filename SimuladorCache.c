@@ -3,7 +3,6 @@
 #include <stdbool.h>
 #include <string.h>
 
-#include "misc.h"
 #include "cache.h"
 
 int main(int argc, char *argv[]){
@@ -94,6 +93,8 @@ int main(int argc, char *argv[]){
                     cache->cache_dl1->numHit++;
                     cache->numHit++;
                     hit = true;
+
+                    break;
                 }
 
                 if(cache->cache_dl1->via[i].linha[indice].validade == 0 && viaLivre == -1){
@@ -104,16 +105,14 @@ int main(int argc, char *argv[]){
             if(!hit){
                 if(viaLivre == -1){
                     via = rand() % assoc_dl1;
-                }else{
-                    via = viaLivre;
-                }
 
-                if(cache->cache_dl1->via[via].linha[indice].validade == 0){
-                    cache->cache_dl1->numColdMiss++;
-                    cache->numColdMiss++;
-                }else{
                     cache->cache_dl1->numMissTotal++;
                     cache->numMissTotal++;
+                }else{
+                    via = viaLivre;
+
+                    cache->cache_dl1->numColdMiss++;
+                    cache->numColdMiss++;
                 }
 
                 cache->cache_dl1->via[via].linha[indice].validade = 1;
@@ -140,9 +139,11 @@ int main(int argc, char *argv[]){
                     cache->cache_il1->numHit++;
                     cache->numHit++;
                     hit = true;
+
+                    break;
                 }
 
-                if(cache->cache_il1->via[i].linha[indice].validade == 0 && viaLivre == -1 && !hit){
+                if(cache->cache_il1->via[i].linha[indice].validade == 0 && viaLivre == -1){
                     viaLivre = i;
                 } 
             }
@@ -150,16 +151,14 @@ int main(int argc, char *argv[]){
             if(!hit){
                 if(viaLivre == -1){
                     via = rand() % assoc_il1;
-                }else{
-                    via = viaLivre;
-                }
 
-                if(cache->cache_il1->via[via].linha[indice].validade == 0){
-                    cache->cache_il1->numColdMiss++;
-                    cache->numColdMiss++;
-                }else{
                     cache->cache_il1->numMissTotal++;
                     cache->numMissTotal++;
+                }else{
+                    via = viaLivre;
+
+                    cache->cache_il1->numColdMiss++;
+                    cache->numColdMiss++;
                 }
 
                 cache->cache_il1->via[via].linha[indice].validade = 1;
@@ -177,8 +176,9 @@ int main(int argc, char *argv[]){
 
     fclose(fp);
 
-    salvaDadosCache(cache);
     imprimeDadosCache(cache);
+
+    liberaMemoriaCache(cache);
 
     return 0;
 }
