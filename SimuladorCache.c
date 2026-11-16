@@ -31,7 +31,6 @@ int main(int argc, char *argv[]){
     u32 address;
 
     char fileName[20];
-    char ptr[32];
     char string[20];
 
     FILE *fp; 
@@ -46,7 +45,7 @@ int main(int argc, char *argv[]){
 
         strcpy(fileName,argv[1]);
 
-        fp = fopen(fileName,"r");
+        fp = fopen(fileName,"rb");
 
         if(fp == NULL){
             printf("Arquivo %s não existe\n", fileName);
@@ -62,7 +61,7 @@ int main(int argc, char *argv[]){
 
         strcpy(fileName,argv[7]);
 
-        fp = fopen(fileName,"r");
+        fp = fopen(fileName,"rb");
 
         if(fp == NULL){
             printf("Arquivo %s não existe\n", fileName);
@@ -72,10 +71,8 @@ int main(int argc, char *argv[]){
 
     cache = inicializaCache(nsets_il1,bsize_il1,assoc_il1,nsets_dl1,bsize_dl1,assoc_dl1);
 
-    while(fgets(ptr,32,fp) != NULL){
+    while(fread(&address,sizeof(u32),1,fp) == 1){
         cache->numAcessos++;
-
-        address = strtoul(ptr,NULL,10);
 
         bool hit = false;
 
